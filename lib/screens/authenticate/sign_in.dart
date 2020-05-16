@@ -5,7 +5,7 @@ import 'package:exampal/helperwidgets/others/responsive_ui.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/textformfield.dart';
 import 'package:exampal/routing/routing_constants.dart';
 
-
+import 'package:exampal/utils/validator.dart';
 
 class SignInPage extends StatelessWidget {
   @override
@@ -37,6 +37,7 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
+  Validator validator =Validator();
   
   @override
   void dispose() {
@@ -183,6 +184,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return CustomTextField(
       keyboardType: TextInputType.emailAddress,
       textEditingController: emailController,
+        validator: validator.validateEmail,
       icon: Icons.email,
       hint: "Email ID",
     );
@@ -193,6 +195,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return CustomTextField(
       keyboardType: TextInputType.emailAddress,
       textEditingController: passwordController,
+       validator: validator.validatePasswordLength,
       icon: Icons.lock,
       obscureText: true,
       hint: "Password",
@@ -233,13 +236,21 @@ class _SignInScreenState extends State<SignInScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () async {
 
-       
+         if(_key.currentState.validate())
+    {
+
          
           print("Routing to your account");
        
         dynamic result = await _auth.signInWithEmailAndPassword(emailController.text, passwordController.text);
-        print(result);
+           
+             if(result == null) {
+                      //error
+                      print( 'Please supply a valid email');
+                      ;}
      
+      }
+      
       },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),

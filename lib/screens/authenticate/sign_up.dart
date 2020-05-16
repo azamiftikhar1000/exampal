@@ -8,6 +8,7 @@ import 'package:exampal/helperwidgets/authenticate_ui/customappbar.dart';
 import 'package:provider/provider.dart';
 import 'package:exampal/models/user.dart'; 
 import 'package:exampal/screens/home/home.dart';
+import 'package:exampal/utils/validator.dart';
 
 
 
@@ -28,6 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
+  Validator validator =Validator();
 
   @override
   void dispose() {
@@ -187,6 +189,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget firstNameTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
+<<<<<<< Updated upstream
+=======
+      validator: validator.validateName,
+      textEditingController: firstnameController,
+>>>>>>> Stashed changes
       icon: Icons.person,
       hint: "First Name",
     );
@@ -195,6 +202,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget lastNameTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
+<<<<<<< Updated upstream
+=======
+       validator: validator.validateName,
+        textEditingController: lastnameController,
+>>>>>>> Stashed changes
       icon: Icons.person,
       hint: "Last Name",
     );
@@ -203,24 +215,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget emailTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.emailAddress,
+       validator: validator.validateEmail,
       textEditingController: emailController,
       icon: Icons.email,
       hint: "Email ID",
     );
   }
 
-  Widget phoneTextFormField() {
-    return CustomTextField(
-      keyboardType: TextInputType.number,
-      icon: Icons.phone,
-      hint: "Mobile Number",
-    );
-  }
 
   Widget passwordTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
       textEditingController: passwordController,
+      validator: validator.validatePasswordLength,
       obscureText: true,
       icon: Icons.lock,
       hint: "Password",
@@ -255,20 +262,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
  onPressed: () async {
+<<<<<<< Updated upstream
         //print("Routing to your account");
         dynamic result = await _auth.registerWithEmailAndPassword(emailController.text, passwordController.text,"temp","temp");
+=======
+        
+
+    if(_key.currentState.validate())
+    {
+
+        dynamic result = await _auth.registerWithEmailAndPassword(emailController.text, passwordController.text,firstnameController.text,lastnameController.text);
+>>>>>>> Stashed changes
               //print(result.uid);
 
                     if(result == null) {
-                    
-                      //setState(() {
+                      //error
                       print( 'Please supply a valid email');
-                      //}
-                      //);
-;}
+                      ;}
 
       }
-      ,
+ },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
       child: Container(
