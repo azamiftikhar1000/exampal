@@ -27,6 +27,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _medium;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController firstnameController  = TextEditingController();
+  TextEditingController lastnameController  = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
 
   @override
@@ -34,6 +36,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // Clean up the controller when the widget is disposed.
     emailController.dispose();
     passwordController.dispose();
+     firstnameController.dispose();
+      lastnameController.dispose();
     super.dispose();
   }
 
@@ -187,6 +191,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget firstNameTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
+      textEditingController: firstnameController,
       icon: Icons.person,
       hint: "First Name",
     );
@@ -195,6 +200,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget lastNameTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
+        textEditingController: lastnameController,
       icon: Icons.person,
       hint: "Last Name",
     );
@@ -256,7 +262,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
  onPressed: () async {
         //print("Routing to your account");
-        dynamic result = await _auth.registerWithEmailAndPassword(emailController.text, passwordController.text,"temp","temp");
+        dynamic result = await _auth.registerWithEmailAndPassword(emailController.text, passwordController.text,firstnameController.text,lastnameController.text);
               //print(result.uid);
 
                     if(result == null) {
