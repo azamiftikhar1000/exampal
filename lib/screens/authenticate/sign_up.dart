@@ -1,13 +1,18 @@
 import 'package:exampal/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/custom_shape.dart';
-import 'package:exampal/helperwidgets/others/responsive_ui.dart';
+import 'package:exampal/helperwidgets/shared/responsive_ui.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/textformfield.dart';
 import 'package:exampal/routing/routing_constants.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/customappbar.dart';
 import 'package:provider/provider.dart';
 import 'package:exampal/models/user.dart'; 
 import 'package:exampal/screens/home/home.dart';
+<<<<<<< Updated upstream
+=======
+import 'package:exampal/utils/validator.dart';
+import 'package:exampal/helperwidgets/shared/loading.dart';
+>>>>>>> Stashed changes
 
 
 
@@ -27,13 +32,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _medium;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+<<<<<<< Updated upstream
   GlobalKey<FormState> _key = GlobalKey();
+=======
+  TextEditingController firstnameController  = TextEditingController();
+  TextEditingController lastnameController  = TextEditingController();
+  GlobalKey<FormState> _keysignup = GlobalKey<FormState>();
+  Validator validator =Validator();
+  bool loading = false;
+>>>>>>> Stashed changes
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     emailController.dispose();
     passwordController.dispose();
+     firstnameController.dispose();
+      lastnameController.dispose();
     super.dispose();
   }
 
@@ -49,13 +64,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
   
     final user = Provider.of<User>(context);
     
+
+
     // if already sign in
-    
      if (user != null){
   
     
     return Home();
+    
     }
+
+   //show screen loading  while processing with backend
+    if(loading)
+      return Loading();
+
 
 
     return Material(
@@ -166,7 +188,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           right: _width / 12.0,
           top: _height / 20.0),
       child: Form(
-        key:_key,
+        key:_keysignup,
         child: Column(
           children: <Widget>[
             firstNameTextFormField(),
@@ -187,6 +209,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget firstNameTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
+<<<<<<< Updated upstream
+=======
+      validator: validator.validateName,
+      textEditingController: firstnameController,
+>>>>>>> Stashed changes
       icon: Icons.person,
       hint: "First Name",
     );
@@ -195,6 +222,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget lastNameTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
+<<<<<<< Updated upstream
+=======
+       validator: validator.validateName,
+        textEditingController: lastnameController,
+>>>>>>> Stashed changes
       icon: Icons.person,
       hint: "Last Name",
     );
@@ -255,6 +287,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
  onPressed: () async {
+<<<<<<< Updated upstream
         //print("Routing to your account");
         dynamic result = await _auth.registerWithEmailAndPassword(emailController.text, passwordController.text,"temp","temp");
               //print(result.uid);
@@ -266,6 +299,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //}
                       //);
 ;}
+=======
+        
+print("button clicked");
+ bool iserror=_keysignup.currentState.validate();
+
+   // if front end validtion is true
+         if(true)
+    {  
+      setState(() {
+        loading=true;
+      });
+
+         
+        dynamic result = await _auth.registerWithEmailAndPassword(emailController.text, passwordController.text,firstnameController.text,lastnameController.text);
+              //print(result.uid);
+
+                    if(result == null) {
+                        //error
+                      
+                      setState(() {
+                        loading= false;
+                      });
+
+
+                      ;}
+>>>>>>> Stashed changes
 
       }
       ,

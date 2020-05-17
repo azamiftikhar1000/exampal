@@ -1,7 +1,8 @@
+import 'package:exampal/helperwidgets/shared/loading.dart';
 import 'package:exampal/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/custom_shape.dart';
-import 'package:exampal/helperwidgets/others/responsive_ui.dart';
+import 'package:exampal/helperwidgets/shared/responsive_ui.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/textformfield.dart';
 import 'package:exampal/routing/routing_constants.dart';
 
@@ -37,6 +38,12 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
+<<<<<<< Updated upstream
+=======
+  Validator validator =Validator();
+  bool loading = false;
+
+>>>>>>> Stashed changes
   
   @override
   void dispose() {
@@ -58,6 +65,11 @@ class _SignInScreenState extends State<SignInScreen> {
      _pixelRatio = MediaQuery.of(context).devicePixelRatio;
      _large =  ResponsiveWidget.isScreenLarge(_width, _pixelRatio);
      _medium =  ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
+    
+    //show screen loading  while processing with backend
+    if(loading)
+      return Loading();
+    
     return Material(
       child: Container(
         height: _height,
@@ -232,13 +244,38 @@ class _SignInScreenState extends State<SignInScreen> {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () async {
+<<<<<<< Updated upstream
 
        
+=======
+ bool iserror=_key.currentState.validate();
+    
+     // if front end validtion is true
+         if(true)
+    {  
+      setState(() {
+        loading=true;
+      });
+
+>>>>>>> Stashed changes
          
           print("Routing to your account");
        
         dynamic result = await _auth.signInWithEmailAndPassword(emailController.text, passwordController.text);
+<<<<<<< Updated upstream
         print(result);
+=======
+           
+             if(result == null) {
+                      //error
+                      
+                      setState(() {
+                        loading= false;
+                      });
+
+
+                      ;}
+>>>>>>> Stashed changes
      
       },
       textColor: Colors.white,

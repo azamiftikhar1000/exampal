@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:exampal/helperwidgets/others/responsive_ui.dart';
+import 'package:exampal/helperwidgets/shared/responsive_ui.dart';
 
 class CustomTextField extends StatelessWidget {
   
@@ -37,6 +37,11 @@ class CustomTextField extends StatelessWidget {
         cursorColor: Colors.orange[200],
       
         decoration: InputDecoration(
+           errorStyle: TextStyle(
+          height: 0,
+          fontSize: 14,
+           
+         )    ,
           prefixIcon: Icon(icon, color: Colors.orange[200], size: 20),
           hintText: hint,
           border: OutlineInputBorder(
