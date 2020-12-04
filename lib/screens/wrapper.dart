@@ -1,4 +1,4 @@
-import 'package:exampal/screens/home/home.dart';
+import 'package:exampal/screens/home/home_screen.dart';
 import 'package:exampal/screens/authenticate/authenticate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

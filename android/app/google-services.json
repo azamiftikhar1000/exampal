@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "706426995462",
+    "firebase_url": "https://exampal-139cb.firebaseio.com",
+    "project_id": "exampal-139cb",
+    "storage_bucket": "exampal-139cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706426995462:android:43bc5ea481c0a1f02e1487",
+        "android_client_info": {
+          "package_name": "com.locus.exampal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "706426995462-ou9pcv96mghdid4r3s7eruvlk9pngv8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp8kz9EuZiTm0JHmvUQya1Im4dZ3TVIFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706426995462-ou9pcv96mghdid4r3s7eruvlk9pngv8j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "706426995462-kspc5rjkidbdbvhncbm4c8ug6852chlv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.locus.exampal"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

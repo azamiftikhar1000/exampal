@@ -1,11 +1,12 @@
+import 'package:exampal/helperwidgets/shared/loading.dart';
 import 'package:exampal/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/custom_shape.dart';
-import 'package:exampal/helperwidgets/others/responsive_ui.dart';
+import 'package:exampal/helperwidgets/shared/responsive_ui.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/textformfield.dart';
 import 'package:exampal/routing/routing_constants.dart';
 
-
+import 'package:exampal/utils/validator.dart';
 
 class SignInPage extends StatelessWidget {
   @override
@@ -37,6 +38,9 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
+  Validator validator =Validator();
+  bool loading = false;
+
   
   @override
   void dispose() {
@@ -58,6 +62,11 @@ class _SignInScreenState extends State<SignInScreen> {
      _pixelRatio = MediaQuery.of(context).devicePixelRatio;
      _large =  ResponsiveWidget.isScreenLarge(_width, _pixelRatio);
      _medium =  ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
+    
+    //show screen loading  while processing with backend
+    if(loading)
+      return Loading();
+    
     return Material(
       child: Container(
         height: _height,
@@ -183,6 +192,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return CustomTextField(
       keyboardType: TextInputType.emailAddress,
       textEditingController: emailController,
+      validator: validator.validateEmail,
       icon: Icons.email,
       hint: "Email ID",
     );
@@ -193,6 +203,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return CustomTextField(
       keyboardType: TextInputType.emailAddress,
       textEditingController: passwordController,
+       validator: validator.validatePasswordLength,
       icon: Icons.lock,
       obscureText: true,
       hint: "Password",
@@ -232,14 +243,32 @@ class _SignInScreenState extends State<SignInScreen> {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () async {
+ bool iserror=_key.currentState.validate();
+    
+     // if front end validtion is true
+         if(true)
+    {  
+      setState(() {
+        loading=true;
+      });
 
-       
          
           print("Routing to your account");
        
         dynamic result = await _auth.signInWithEmailAndPassword(emailController.text, passwordController.text);
-        print(result);
+           
+             if(result == null) {
+                      //error
+                      
+                      setState(() {
+                        loading= false;
+                      });
+
+
+                      ;}
      
+      }
+      
       },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),

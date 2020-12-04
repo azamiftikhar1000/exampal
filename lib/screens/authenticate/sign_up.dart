@@ -1,13 +1,15 @@
 import 'package:exampal/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/custom_shape.dart';
-import 'package:exampal/helperwidgets/others/responsive_ui.dart';
+import 'package:exampal/helperwidgets/shared/responsive_ui.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/textformfield.dart';
 import 'package:exampal/routing/routing_constants.dart';
 import 'package:exampal/helperwidgets/authenticate_ui/customappbar.dart';
 import 'package:provider/provider.dart';
 import 'package:exampal/models/user.dart'; 
-import 'package:exampal/screens/home/home.dart';
+import 'package:exampal/screens/home/home_screen.dart';
+import 'package:exampal/utils/validator.dart';
+import 'package:exampal/helperwidgets/shared/loading.dart';
 
 
 
@@ -27,13 +29,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _medium;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  GlobalKey<FormState> _key = GlobalKey();
+  TextEditingController firstnameController  = TextEditingController();
+  TextEditingController lastnameController  = TextEditingController();
+  GlobalKey<FormState> _keysignup = GlobalKey<FormState>();
+  Validator validator =Validator();
+  bool loading = false;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     emailController.dispose();
     passwordController.dispose();
+     firstnameController.dispose();
+      lastnameController.dispose();
     super.dispose();
   }
 
@@ -49,14 +57,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   
     final user = Provider.of<User>(context);
     
+
+
     // if already sign in
-    
      if (user != null){
-  
-    
-    return Home();
+      return Home();
     }
 
+   //show screen loading  while processing with backend
+    if(loading)
+      return Loading();
 
     return Material(
       child: Scaffold(
@@ -75,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 button(),
                 infoTextRow(),
                 socialIconsRow(),
-                //signInTextRow(),
+                signInTextRow(),
               ],
             ),
           ),
@@ -160,13 +170,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget form() {
     return Container(
-      
       margin: EdgeInsets.only(
           left:_width/ 12.0,
           right: _width / 12.0,
           top: _height / 20.0),
       child: Form(
-        key:_key,
+        key:_keysignup,
         child: Column(
           children: <Widget>[
             firstNameTextFormField(),
@@ -175,8 +184,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(height: _height/ 60.0),
             emailTextFormField(),
             SizedBox(height: _height / 60.0),
-          
-
             passwordTextFormField(),
           ],
         ),
@@ -187,6 +194,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget firstNameTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
+      validator: validator.validateName,
+      textEditingController: firstnameController,
       icon: Icons.person,
       hint: "First Name",
     );
@@ -195,6 +204,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget lastNameTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
+       validator: validator.validateName,
+        textEditingController: lastnameController,
       icon: Icons.person,
       hint: "Last Name",
     );
@@ -203,24 +214,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget emailTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.emailAddress,
+       validator: validator.validateEmail,
       textEditingController: emailController,
       icon: Icons.email,
       hint: "Email ID",
     );
   }
 
-  Widget phoneTextFormField() {
-    return CustomTextField(
-      keyboardType: TextInputType.number,
-      icon: Icons.phone,
-      hint: "Mobile Number",
-    );
-  }
 
   Widget passwordTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
       textEditingController: passwordController,
+      validator: validator.validatePasswordLength,
       obscureText: true,
       icon: Icons.lock,
       hint: "Password",
@@ -254,26 +260,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return RaisedButton(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
- onPressed: () async {
-        //print("Routing to your account");
-        dynamic result = await _auth.registerWithEmailAndPassword(emailController.text, passwordController.text,"temp","temp");
-              //print(result.uid);
+  onPressed: () async {    
+    print("button clicked");
+    bool iserror=_keysignup.currentState.validate();
 
-                    if(result == null) {
-                    
-                      //setState(() {
-                      print( 'Please supply a valid email');
-                      //}
-                      //);
-;}
-
-      }
-      ,
+    // if front end validtion is true
+    if(true)
+    {  
+      setState(() {
+        loading=true;
+      });     
+      dynamic result = await _auth.registerWithEmailAndPassword(emailController.text, passwordController.text,firstnameController.text,lastnameController.text);
+            //print(result.uid);
+        if(result == null) {
+          //error          
+          setState(() {
+            loading= false;
+          });
+        }
+    }
+  },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
-//        height: _height / 20,
+        //height: _height / 20,
         width:_large? _width/4 : (_medium? _width/3.75: _width/3.5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -340,7 +351,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         children: <Widget>[
           Text(
             "Already have an account?",
-            style: TextStyle(fontWeight: FontWeight.w400),
+            style: TextStyle(fontWeight: FontWeight.w400, color: Colors.black),
           ),
           SizedBox(
             width: 5,

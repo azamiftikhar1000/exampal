@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:exampal/helperwidgets/others/responsive_ui.dart';
+import 'package:exampal/helperwidgets/shared/responsive_ui.dart';
 
 class CustomTextField extends StatelessWidget {
   
@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final IconData icon;
+  final String Function(String) validator;
   double _width;
   double _pixelRatio;
   bool large;
@@ -18,6 +19,7 @@ class CustomTextField extends StatelessWidget {
     {this.hint,
       this.textEditingController,
       this.keyboardType,
+      this.validator,
       this.icon,
       this.obscureText= false,
      });
@@ -34,9 +36,15 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         controller: textEditingController,
         keyboardType: keyboardType,
+        validator: validator,
         cursorColor: Colors.orange[200],
       
         decoration: InputDecoration(
+           errorStyle: TextStyle(
+          height: 0,
+          fontSize: 14,
+           
+         ),
           prefixIcon: Icon(icon, color: Colors.orange[200], size: 20),
           hintText: hint,
           border: OutlineInputBorder(

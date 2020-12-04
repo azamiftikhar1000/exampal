@@ -1,5 +1,6 @@
+import 'package:exampal/screens/home/chats/chat_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:exampal/screens/home/home.dart';
+import 'package:exampal/screens/home/home_screen.dart';
 import 'package:exampal/routing/routing_constants.dart';
 import 'package:exampal/screens/authenticate/sign_in.dart';
 import 'package:exampal/screens/authenticate/sign_up.dart';
@@ -17,9 +18,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case WrapperRoute:
       return MaterialPageRoute(builder: (context) => Wrapper());
     case SigninRoute:
-      return MaterialPageRoute(builder: (context) => SignInPage());
-      case SignupRoute:
-      return MaterialPageRoute(builder: (context) => SignUpScreen());
+        return MaterialPageRoute(builder: (context) => SignInPage());
+    case SignupRoute:
+        return MaterialPageRoute(builder: (context) => SignUpScreen());
+    case ChatsRoute:
+      return MaterialPageRoute(builder: (context) => ChatScreen());
     default:
    
     return MaterialPageRoute(builder: (context) => UndefinedView(name: settings.name,));
